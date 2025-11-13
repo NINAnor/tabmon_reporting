@@ -1,0 +1,18 @@
+((*- extends 'base.tex.j2' -*))
+
+
+((* block docclass *))
+\documentclass[11pt]{article}
+\title{((title))}
+((* endblock docclass *))
+
+((* block header *))
+((( super() )))
+% --- Custom geometry and layout ---
+\geometry{margin=1in}
+\usepackage{graphicx}
+\usepackage{changepage}
+\setkeys{Gin}{width=\paperwidth}
+((* endblock header *))
+
+
