@@ -1,6 +1,6 @@
 Scripts for automatic reports intended for TABMON project stakeholders.
 
-Need to download
+Need to download this files: 
 
 https://tabmon.nina.no/data/index.parquet
 
