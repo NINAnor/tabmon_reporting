@@ -40,3 +40,6 @@ class DataProcessor:
     
     def get_predictions_for_device(self, bugg_id):
         return self.predictions_df[self.predictions_df['device_id'] == bugg_id]
+    
+    def get_species_richness_over_time(self):
+        return self.predictions_df.groupby('date')['species_with_status'].nunique()

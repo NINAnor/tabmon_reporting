@@ -16,6 +16,5 @@ for cluster in "${clusters[@]}"; do
         -P cluster_name:"$cluster" \
         --embed-resources
     
-    # Move the generated file to the desired location
     mv report/tabmon_reports.html "reports/${cluster_safe}_report.html"
 done

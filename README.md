@@ -63,5 +63,5 @@ pixi run quarto render report/tabmon_reports.qmd --to html
 
 ## Contact
 
-[Corentin Bernard](mailto:corentin.bernard@lis-lab.fr)
-[Benjamin Cretois](mailto:benjamin.cretois@nina.no)
+- [Corentin Bernard](mailto:corentin.bernard@lis-lab.fr)
+- [Benjamin Cretois](mailto:benjamin.cretois@nina.no)

@@ -153,3 +153,24 @@ def plot_daily_trends_full_per_device(data_processor, bugg_id_list, occurrence_t
         create_temporal_heatmap(ax[1], device_grouped, date_tick, base_vmax)
         fig.text(0.2, 0.13, "Number of detections", verticalalignment='bottom', horizontalalignment='left')
         plt.tight_layout()
+
+def plot_species_richness(data_processor, date_range, plot_width=10, cluster_name="", date_tick=7):
+    # Get species richness over time (number of unique species per day)
+    species_richness = data_processor.get_species_richness_over_time()
+    species_richness = species_richness.reindex(date_range, fill_value=0)
+    
+    fig, ax = plt.subplots(figsize=(plot_width, 6))
+    
+    # Create histogram/bar plot of species richness over time
+    species_richness.plot(kind='bar', ax=ax, width=0.8, color='skyblue', edgecolor='navy', alpha=0.7)
+    
+    ax.set_title(f"Species Richness over Time - {cluster_name}", y=1.02)
+    ax.set_ylabel("Number of Species Detected")
+    ax.set_xlabel("Date")
+    
+    configure_axes(ax)
+    format_date_ticks(ax, date_tick)
+    
+    plt.tight_layout()
+
+    return species_richness

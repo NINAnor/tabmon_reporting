@@ -56,7 +56,8 @@ from scripts.plots import (plot_num_recorded_files_per_buggs,
                             plot_number_detections_per_species, 
                             plot_daily_trends, 
                             plot_daily_trends_full, 
-                            plot_daily_trends_full_per_device)
+                            plot_daily_trends_full_per_device,
+                            plot_species_richness)
 ```
 
 
@@ -74,8 +75,8 @@ cluster_name = "Port-Cros"
 confidence_threshold = 0.8
 
 # DISPLAY PARAMETERS
-N_occurrence_threshold_annual = 20
-N_occurrence_threshold_daily = 50
+N_occurrence_threshold_annual = 10
+N_occurrence_threshold_daily = 10
 date_tick = 5
 
 # PATH PARAMETERS
@@ -167,7 +168,7 @@ index_df = index_df[index_df["bugg_id"].isin(bugg_id_list)]
 #| include: false
 
 full_date_range = pd.date_range(
-    start = min(deployment_date_list),
+    start=max(min(deployment_date_list), datetime(2025, 1, 1)),
     end=index_df['date'].max(),
     freq='D'  # daily
 ).date 
@@ -226,6 +227,7 @@ predictions_df = predictions_df_with_status
 data_processor = DataProcessor(predictions_df, index_df)
 ```
 
+
 ```{python}
 #| label: plot-recording-activity
 #| fig-cap: "Number of recorded files per device and per day"
@@ -239,13 +241,15 @@ date_counts_total = plot_num_recorded_files_per_buggs(data_processor, bugg_id_li
 #| include: false
 
 analyzed_date_range = pd.date_range(
-    start=min(deployment_date_list),
+    start=max(min(deployment_date_list), datetime(2025, 1, 1)),
     end=predictions_df['date'].max(),
     freq='D'
 ).date 
 ```
 
-# Detected species
+# Richness of species detected in the cluster
+
+## Species that have been detected
 
 ```{python}
 #| label: detection-explanation
@@ -261,11 +265,28 @@ These data should be treated with caution, particularly for species that have on
 
 ```{python}
 #| label: plot-species-detections
-#| fig-cap: "Number of detections per species over the entire period"
+#| fig-cap: ""
 
 plot_number_detections_per_species(data_processor, 
                                     plot_width=10)
 ```
+
+## Species richness over time in the cluster
+
+```{python}
+#| label: richness-explanation
+#| output: asis
+
+display(Markdown(f"The figure below displays the number of detected species per day"))
+```
+
+```{python}
+#| label: species-richness-plot
+#| fig-cap: "Number of recorded files per device and per day"
+
+n_species = plot_species_richness(data_processor, date_range=analyzed_date_range ,plot_width=10)
+```
+
 
 # Daily trends
 
@@ -278,7 +299,7 @@ display(Markdown(f"The following figure shows the daily activity of each species
 
 ```{python}
 #| label: plot-daily-trends
-#| fig-cap: "Daily activity patterns by species (number of detections per hour)"
+#| fig-cap: ""
 
 plot_daily_trends(data_processor, 
                     N_occurrence_threshold_daily, 
@@ -286,16 +307,19 @@ plot_daily_trends(data_processor,
                     cluster_name=cluster_name)
 ```
 
+# TABMON deployment trend (cluster level)
+
 ```{python}
-#| label: temporal-trends-explanation
+#| label: deployment-trend-cluster-explanation
 #| output: asis
 
-display(Markdown(f"The following figure shows the evolution of detections day by day. Only species with more than {N_occurrence_threshold_annual} detections in total are displayed."))
+display(Markdown(f"The following figure shows the evolution of detections day by day for the entire cluster. Only species with more than {N_occurrence_threshold_annual} detections in total are displayed."))
 ```
+
 
 ```{python}
 #| label: plot-temporal-trends
-#| fig-cap: "Evolution of detections over time by species"
+#| fig-cap: ""
 
 plot_daily_trends_full(
     data_processor, 
@@ -306,6 +330,15 @@ plot_daily_trends_full(
     cluster_name="", 
     date_tick=7
 )
+```
+
+# TABMON deployment trend (device level)
+
+```{python}
+#| label: deployment-trend-device-explanation
+#| output: asis
+
+display(Markdown(f"The following figure shows the evolution of detections day by day for the entire cluster. Only species with more than {N_occurrence_threshold_annual} detections in total are displayed."))
 ```
 
 ```{python}
