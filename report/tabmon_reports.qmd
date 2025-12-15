@@ -1,5 +1,5 @@
 ---
-title: "Rapport TABMON"
+title: ""
 format:
   html:
     toc: true
@@ -8,14 +8,6 @@ format:
     fig-width: 12
     fig-height: 8
     dpi: 150
-  pdf:
-    toc: true
-    toc-depth: 2
-    code-fold: false
-    fig-width: 12
-    fig-height: 8
-    dpi: 150
-    template-file: ../custom_template.tex.j2
 execute:
   echo: false
   warning: false
@@ -66,6 +58,26 @@ from scripts.plots import (plot_num_recorded_files_per_buggs,
 
 cluster_name = "Port-Cros"
 ```
+
+```{python}
+#| echo: false
+#| output: asis
+
+display(Markdown(f'<h1 style="text-align: center;">TABMON report for cluster {cluster_name}</h1>'))
+```
+
+
+![](../assets/tabmon_logo.png){width=200 fig-align="center"}
+
+<div style="text-align: center; margin-bottom: 20px;">
+<p><strong>Authors:</strong></p>
+<p>Corentin Bernard<sup>1</sup>, Ben McEwen<sup>2</sup>, Benjamin Cretois<sup>3</sup></p>
+<p style="font-size: 0.9em;">
+<sup>1</sup>Université de Toulon, Aix Marseille Univ, CNRS, LIS, Marseille, France<br>
+<sup>2</sup>Tilburg University, Netherlands<br>
+<sup>3</sup>Norwegian Institute for Nature Research, Trondheim, Norway
+</p>
+</div>
 
 ```{python}
 #| label: parameters
@@ -249,6 +261,7 @@ analyzed_date_range = pd.date_range(
 
 # Richness of species detected in the cluster
 
+
 ## Species that have been detected
 
 ```{python}
@@ -262,6 +275,14 @@ The number of detections corresponds to the number of 3-second segments in which
 The following graph shows the number of detections per species in the area over the entire period. 
 It should be noted that throughout the document, the number of detections is displayed on a logarithmic scale.
 These data should be treated with caution, particularly for species that have only been detected a few times. These are raw results provided by BirdNET, which have not been manually verified. In addition, BirdNET's performance can vary greatly from one species to another.
+
+Next to the species name is the **IUCN red list status** of the species. Below is a quick explanation of the acronym used in the figures:
+
+- Critically Endangered **(CR)** (highest risk) 
+- Endangered **(EN)** 
+- Vulnerable **(VU)**
+- Near Threatened **(NT)** (likely to become threatened)
+- Least Concern **(LC)** (widespread/abundant)
 
 ```{python}
 #| label: plot-species-detections
